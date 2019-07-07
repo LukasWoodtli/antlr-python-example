@@ -6,6 +6,6 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - get_and_run_antlr4.sh
+  - ./get_and_run_antlr4.sh
   - ./parse.py example.cpp
 
