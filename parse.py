@@ -9,12 +9,22 @@ from parser.CPP14Listener import CPP14Listener
 
 class MyListener(CPP14Listener):
     def __getattribute__(self, name):
-        def method(*args):
-            print("tried to handle unknown method " + name)
-            if args:
-                print("it had arguments: " + str(args))
+        attr = object.__getattribute__(self, name)
+        if hasattr(attr, '__call__'):
+            def newfunc(*args, **kwargs):
+                #print('before calling %s with args %s and %s' % (attr.__name__, str(args), str(kwargs)))
+                result = attr(*args, **kwargs)
+                #print('done calling %s' % attr.__name__)
+                return result
 
-        return method
+            return newfunc
+        else:
+            return attr
+
+    def enterPreprocessingDirective(self, context):
+        print(context.start.text)
+
+
 
 def main(argv):
     input_stream = FileStream(argv[1])

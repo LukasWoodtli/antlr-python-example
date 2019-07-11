@@ -422,6 +422,7 @@ declaration
    | namespacedefinition
    | emptydeclaration
    | attributedeclaration
+   | preprocessingDirectives
    ;
 
 blockdeclaration
@@ -1124,11 +1125,21 @@ noexceptspecification
 
 
 MultiLineMacro
-   : '#' (~ [\n]*? '\\' '\r'? '\n')+ ~ [\n]+ -> channel (HIDDEN)
+   : '#' (~ [\n]*? '\\' '\r'? '\n')+ ~ [\n]+
    ;
 
 Directive
-   : '#' ~ [\n]* -> channel (HIDDEN)
+   : '#' ~ [\n]*
+   ;
+
+preprocessingDirectives
+   : preprocessingDirective
+   | preprocessingDirectives preprocessingDirective
+   ;
+
+preprocessingDirective
+   : MultiLineMacro
+   | Directive
    ;
 /*Lexer*/
 
