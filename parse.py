@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from antlr4 import *
+from antlr4.BufferedTokenStream import *
 from parser.CPP14Lexer import CPP14Lexer
 from parser.CPP14Parser import CPP14Parser
 from parser.CPP14Listener import CPP14Listener
@@ -71,7 +72,7 @@ class MyListener(CPP14Listener):
 
 
     def enterPreprocessingDirective(self, context):
-        directive = PreprocessingDirective(context.start.text)
+        directive = PreprocessingDirective(context.getText())
         self._enter_element_add_to_stack(directive)
 
     def exitPreprocessingDirective(self, context):
@@ -81,7 +82,7 @@ class MyListener(CPP14Listener):
 def parse_file(file):
     input_stream = FileStream(file)
     lexer = CPP14Lexer(input_stream)
-    stream = CommonTokenStream(lexer)
+    stream = BufferedTokenStream(lexer)
     parser = CPP14Parser(stream)
     tree = parser.translationunit()
 
