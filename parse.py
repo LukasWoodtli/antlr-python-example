@@ -5,6 +5,7 @@ from parser.CPP14Lexer import CPP14Lexer
 from parser.CPP14Parser import CPP14Parser
 from parser.CPP14Listener import CPP14Listener
 
+
 class CppElement:
     def __init__(self, source_element_text):
         self.source_element_text = source_element_text
@@ -41,9 +42,9 @@ class MyListener(CPP14Listener):
         attr = object.__getattribute__(self, name)
         if hasattr(attr, '__call__'):
             def newfunc(*args, **kwargs):
-                print('before calling %s with args %s and %s' % (attr.__name__, str(args), str(kwargs)))
+                #print('before calling %s with args %s and %s' % (attr.__name__, str(args), str(kwargs)))
                 result = attr(*args, **kwargs)
-                print('done calling %s' % attr.__name__)
+                #print('done calling %s' % attr.__name__)
                 return result
 
             return newfunc
@@ -77,10 +78,8 @@ class MyListener(CPP14Listener):
         self._exit_element_remove_from_stack()
 
 
-
-
-def main(argv):
-    input_stream = FileStream(argv[1])
+def parse_file(file):
+    input_stream = FileStream(file)
     lexer = CPP14Lexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = CPP14Parser(stream)
@@ -90,9 +89,9 @@ def main(argv):
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
 
-    for element in listener.get_model():
-        print(element)
+    return listener.get_model()
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    for element in parse_file(sys.argv[1]):
+        print(element)

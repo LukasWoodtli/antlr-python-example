@@ -8,4 +8,4 @@ install:
 script:
   - ./get_and_run_antlr4.sh
   - ./parse.py example.cpp
-
+  - python3 -m unittest
