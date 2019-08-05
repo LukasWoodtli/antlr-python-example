@@ -34,6 +34,8 @@ class CppFile(CppElement):
 class PreprocessingDirective(CppElement):
     pass
 
+class CppOnlyBlock(CppElement):
+    pass
 
 class MyListener(CPP14Listener):
     def __init__(self):
@@ -70,6 +72,12 @@ class MyListener(CPP14Listener):
     def exitTranslationunit(self, context):
         self._exit_element_remove_from_stack()
 
+    def enterCppOnly(self, context):
+        cpp_only = CppOnlyBlock(context.getText())
+        self._enter_element_add_to_stack(cpp_only)
+
+    def exitCppOnly(self, context):
+        self._exit_element_remove_from_stack()
 
     def enterPreprocessingDirective(self, context):
         directive = PreprocessingDirective(context.getText())
@@ -86,6 +94,7 @@ def parse_file(file):
     parser = CPP14Parser(stream)
     if parser.getNumberOfSyntaxErrors():
         print(f"Error on: {parser.getErrorHeader()}")
+        exit(-1)
     tree = parser.translationunit()
 
     listener = MyListener()

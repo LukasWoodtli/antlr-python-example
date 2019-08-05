@@ -5,6 +5,10 @@
 #include "bar"
 
 
+#ifdef CPP_ONLY
+using mytype = int;
+#endif
+
 class MyClass {
     int foo() { return 3; }
 };

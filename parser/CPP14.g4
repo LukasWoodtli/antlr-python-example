@@ -423,6 +423,7 @@ declaration
    | emptydeclaration
    | attributedeclaration
    | preprocessingDirectives
+   | cppOnly
    ;
 
 blockdeclaration
@@ -1123,6 +1124,9 @@ noexceptspecification
    ;
 /*Preprocessing directives*/
 
+CppOnlyBlock
+   : '#ifdef CPP_ONLY'.*?'#endif'
+   ;
 
 MultiLineMacro
    : '#' (~ [\n]*? '\\' '\r'? '\n')+ ~ [\n]+
@@ -1141,6 +1145,9 @@ preprocessingDirective
    : MultiLineMacro
    | Directive
    ;
+cppOnly
+   : CppOnlyBlock;
+
 /*Lexer*/
 
 /*Keywords*/
