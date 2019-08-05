@@ -84,6 +84,8 @@ def parse_file(file):
     lexer = CPP14Lexer(input_stream)
     stream = BufferedTokenStream(lexer)
     parser = CPP14Parser(stream)
+    if parser.getNumberOfSyntaxErrors():
+        print(f"Error on: {parser.getErrorHeader()}")
     tree = parser.translationunit()
 
     listener = MyListener()
