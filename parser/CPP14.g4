@@ -165,7 +165,6 @@ unaryexpression
    | Sizeof unaryexpression
    | Sizeof '(' thetypeid ')'
    | Sizeof '...' '(' Identifier ')'
-   | Alignof '(' thetypeid ')'
    | noexceptexpression
    | newexpression
    | deleteexpression
@@ -428,7 +427,6 @@ declaration
 
 blockdeclaration
    : simpledeclaration
-   | asmdefinition
    | namespacealiasdefinition
    | usingdeclaration
    | usingdirective
@@ -650,10 +648,6 @@ usingdirective
    : attributespecifierseq? Using Namespace nestednamespecifier? namespacename ';'
    ;
 
-asmdefinition
-   : Asm '(' Stringliteral ')' ';'
-   ;
-
 linkagespecification
    : Extern Stringliteral '{' declarationseq? '}'
    | Extern Stringliteral declaration
@@ -666,12 +660,6 @@ attributespecifierseq
 
 attributespecifier
    : '[' '[' attributelist ']' ']'
-   | alignmentspecifier
-   ;
-
-alignmentspecifier
-   : Alignas '(' thetypeid '...'? ')'
-   | Alignas '(' constantexpression '...'? ')'
    ;
 
 attributelist
@@ -1152,18 +1140,6 @@ cppOnly
 
 /*Keywords*/
 
-
-Alignas
-   : 'alignas'
-   ;
-
-Alignof
-   : 'alignof'
-   ;
-
-Asm
-   : 'asm'
-   ;
 
 Auto
    : 'auto'
