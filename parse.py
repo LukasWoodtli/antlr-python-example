@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 import sys
+import os
 from antlr4 import *
 from antlr4.BufferedTokenStream import *
 from parser.CPP14Lexer import CPP14Lexer
 from parser.CPP14Parser import CPP14Parser
 from parser.CPP14Listener import CPP14Listener
+
+
+sys.setrecursionlimit(1000 * 100)
+print(f"Recursion Limit: {sys.getrecursionlimit()}")
 
 
 class CppElement:
